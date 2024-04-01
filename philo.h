@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 typedef struct s_philo	t_philo;
 
