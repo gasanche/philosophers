@@ -94,6 +94,7 @@ int	pregnancy(char **argv, t_agora *agora)
 {
 	if (ft_strisvalid(argv) == -1)
 		return (-1);
+	agora->ended = 0;
 	agora->n_phils = ft_atoi(argv[1]);
 	agora->ttdie = ft_atoi(argv[2]);
 	agora->tteat = ft_atoi(argv[3]);
@@ -105,7 +106,7 @@ int	pregnancy(char **argv, t_agora *agora)
 		|| (argv[5] && !agora->min_meals))
 		return (-1);
 	pthread_mutex_init(&agora->print, NULL);
-	pthread_mutex_init(&agora->start, NULL);
+	pthread_mutex_init(&agora->m_start, NULL);
 	pthread_mutex_init(&agora->end, NULL);
 	pthread_mutex_init(&agora->end_ph, NULL);
 	agora->baby = malloc(sizeof(pthread_t) * agora->n_phils);

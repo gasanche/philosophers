@@ -1,3 +1,17 @@
+void    food_left(t_philo *philo)
+{
+    if (philo->lst_eat >= philo->agora->min_meals && philo->lst_eat >= 0)
+    {
+        philo->lst_eat--;
+        if (philo->lst_eat == 0)
+        {
+            pthread_mutex_lock(&philo->agora->end_ph);
+            philo->agora->min_meals++;
+            pthread_mutex_unlock(&philo->agora->end_ph);
+        }
+    }
+}
+
 void eat(t_philo *philo)
 {
     pthread_mutex_lock(&philo->left);
@@ -15,8 +29,8 @@ void eat(t_philo *philo)
     pthread_mutex_unlock(&philo->died);
     if (philo->lst_eat != 0) //amigo dannyel del pasado, parsea mejor lolololol
         print_status(philo, "is eating", 0);
-    //hacer una funcion del tiempo de comida
-    //hacer una funcion del tiempo de sueño
+    food_left(philo);
+    sleeping(philo->agora->ttsleep, philo->agora);
     pthread_mutex_unlock(&philo->left);
     pthread_mutex_unlock(&philo->right);
     if (philo->lst_eat != 0) //amigo dannyel del pasado, parsea mejor lolololol
@@ -28,7 +42,12 @@ void eat(t_philo *philo)
 
 void sleeping(int ttsleep, t_agora *agora)
 {
+    int time;
 
+    time = time_passed(agora->start) + ttsleep;
+    while (time_passed(agora->start) < time)
+        usleep(100); //hay que investigarlo '-'
+    return (0);
 }
 
 int food_supervisor(t_agora *agora)
@@ -75,7 +94,7 @@ void    sargent(t_agora *agora)
         if (time_passed(agora->start) > time)
         {
             pthread_mutex_lock(&agora->end);
-            agora->end = 1;
+            agora->ended = 1;
             pthread_mutex_unlock(&agora->end);
             print_status(&agora->philo[i], "died", 1);
             break ;
@@ -89,7 +108,23 @@ void    sargent(t_agora *agora)
     }
 }
 
-void routine(void *philo)
+void *routine(void *philo_arg)
 {
+    t_philo *philo;
+    int     status;
 
+    philo = (t_philo *)philo_arg; //aclarar pa que sirve
+    if (philo->n_philo % 2 == 1)
+    {
+        sleeping(50, philo->agora); //investigar por que es 50
+    }
+    status = 0;
+    while (status != 1)
+    {
+        eating(philo);
+        pthread_mutex_lock(&philo->agora->end);
+        status = philo->agora->ended;
+        pthread_mutex_unlock(&philo->agora->end);
+    }
+    return (NULL);
 }

@@ -30,10 +30,12 @@ typedef struct s_agora
 	int	tteat;
 	int	ttsleep;
 	int	min_meals;
+	int	ended;
 	pthread_t	*baby;
+	struct timeval	start;
 	struct s_philo	*philos;
 	pthread_mutex_t	print;
-	pthread_mutex_t	start;
+	pthread_mutex_t	m_start;
 	pthread_mutex_t	end;
 	pthread_mutex_t	end_ph;
 }	t_agora;
