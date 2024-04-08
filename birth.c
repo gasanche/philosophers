@@ -24,7 +24,9 @@ int	free_mmr(pthread_t **baby, t_philo **philos, int error)
 		free (*baby);
 		*baby = NULL;
 	}
-	return (printf("Error malloc\n") * 0 + error);
+	if (error == -1)
+		return (printf("Error malloc\n") * 0 + error);
+	return (error);
 }
 
 int	ft_strlen(char *s)
@@ -58,7 +60,7 @@ void	giving_birth(t_agora *agora)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(agora->start);
+	pthread_mutex_lock(agora->m_start);
 	while (i < agora->n_phils)
 	{
 		agora->baby[i].n_philo = i;

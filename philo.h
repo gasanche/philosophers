@@ -33,7 +33,7 @@ typedef struct s_agora
 	int	ended;
 	pthread_t	*baby;
 	struct timeval	start;
-	struct s_philo	*philos;
+	struct s_philo	*philo;
 	pthread_mutex_t	print;
 	pthread_mutex_t	m_start;
 	pthread_mutex_t	end;

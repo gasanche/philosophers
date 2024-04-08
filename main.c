@@ -14,17 +14,19 @@
 
 int	main(int argc, char **argv)
 {
-	t_philos	philos;
-	void *ret;
+	t_agora agora;
 
 	if (argc < 5 || argc > 6)
-		return (write(2, "Wrong number of arguments!\n", 28));
+		return (printf("Wrong number of arguments. Have a good day kid :D\n"));
 	else
 	{
-		if (check_argv(&philos, argv) == -1)
-			return (write(2, "Not valid arguments\n", 21));
-		pthread_create(&philos.baby, NULL, thread, "thread 1");
-		pthread_join(philos.baby, &ret);
+		if (check_argv(agora.philo, argv) == -1)
+			return (printf("Error. Have a great day kid :D\n"));
+		sleeping(100, &agora);
+		gettimeofday(&agora.start, NULL);
+		pthread_mutex_unlock(&agora.m_start);
+		sargent(&agora);
+		dead(&agora);
 	}
-	return 0;
+	return (0);
 }
