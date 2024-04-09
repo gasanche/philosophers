@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/09 13:20:13 by gabsanch          #+#    #+#             */
+/*   Updated: 2024/04/09 16:57:52 by gabsanch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
+
 void    food_left(t_philo *philo)
 {
     if (philo->lst_eat >= philo->agora->min_meals && philo->lst_eat >= 0)
@@ -22,19 +36,19 @@ void eat(t_philo *philo)
       pthread_mutex_unlock(&philo->left);
       return ;
     }
-    pthread_mutex_lock(&philo->right);
+    pthread_mutex_lock(philo->right);
     print_status(philo, "has taken a fork", 0);
     pthread_mutex_lock(&philo->died);
-    philo->died = time_passed(philo->agora->start) + philo->agora->ttdie;
+    philo->dead = time_passed(philo->agora->start) + philo->agora->ttdie;
     pthread_mutex_unlock(&philo->died);
     if (philo->lst_eat != 0) //amigo dannyel del pasado, parsea mejor lolololol
         print_status(philo, "is eating", 0);
     food_left(philo);
     sleeping(philo->agora->ttsleep, philo->agora);
     pthread_mutex_unlock(&philo->left);
-    pthread_mutex_unlock(&philo->right);
-    if (philo->lst_eat != 0) //amigo dannyel del pasado, parsea mejor lolololol
-        print_status(philo, "is sleeping", 0);
+    pthread_mutex_unlock(philo->right);
+    if (philo->lst_eat != 0)
+		print_status(philo, "is sleeping", 0);
     sleeping(philo->agora->ttsleep, philo->agora);
     if (philo->lst_eat != 0)
         print_status(philo, "is thinking", 0);
@@ -47,7 +61,6 @@ void sleeping(int ttsleep, t_agora *agora)
     time = time_passed(agora->start) + ttsleep;
     while (time_passed(agora->start) < time)
         usleep(100); //hay que investigarlo '-'
-    return (0);
 }
 
 int food_supervisor(t_agora *agora)
@@ -62,7 +75,7 @@ int food_supervisor(t_agora *agora)
     if (aux == agora->n_phils)
     {
         pthread_mutex_lock(&agora->end);
-        agora->end = 1;
+        agora->ended = 1;
         pthread_mutex_unlock(&agora->end);
         return (1);
     }
@@ -77,6 +90,7 @@ long int    time_passed(struct timeval start)
     gettimeofday(&end, NULL);
     time = (end.tv_usec / 1000 + end.tv_sec * 1000)
             - (start.tv_usec / 1000 + start.tv_sec * 1000);
+	//printf("el start es: %d\n", time);
     return (time);
 }
 
@@ -114,6 +128,7 @@ void *routine(void *philo_arg)
     int     status;
 
     philo = (t_philo *)philo_arg; //aclarar pa que sirve
+	//printf("n_philo tiene: %i\n", philo->n_philo);
     if (philo->n_philo % 2 == 1)
     {
         sleeping(50, philo->agora); //investigar por que es 50
@@ -121,7 +136,7 @@ void *routine(void *philo_arg)
     status = 0;
     while (status != 1)
     {
-        eating(philo);
+        eat(philo);
         pthread_mutex_lock(&philo->agora->end);
         status = philo->agora->ended;
         pthread_mutex_unlock(&philo->agora->end);

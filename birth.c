@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:51:58 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/03/31 18:12:30 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:56:36 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,20 @@ void	giving_birth(t_agora *agora)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(agora->m_start);
+	pthread_mutex_lock(&agora->m_start);
 	while (i < agora->n_phils)
 	{
-		agora->baby[i].n_philo = i;
-		agora->baby[i].lst_eat = agora->min_meals;
-		agora->baby[i].dead = agora->ttdie;
+		agora->philo[i].n_philo = i;
+		agora->philo[i].lst_eat = agora->min_meals;
+		agora->philo[i].dead = agora->ttdie;
 		if (i == 0)
-			agora->baby[i].right = &agora->baby[n_phils - 1].left;
+			agora->philo[i].right = &agora->philo[agora->n_phils - 1].left;
 		else
-			agora->baby[i].right = &agora->baby[i - 1].left;
-		pthread_mutex_init(agora->baby[i].right, NULL);
-		pthread_mutex_init(&agora->baby[i].left, NULL);
-		pthread_mutex_init(&agora->baby[i].died, NULL);
-		agora->baby[i].agora = agora;
+			agora->philo[i].right = &agora->philo[i - 1].left;
+		pthread_mutex_init(agora->philo[i].right, NULL);
+		pthread_mutex_init(&agora->philo[i].left, NULL);
+		pthread_mutex_init(&agora->philo[i].died, NULL);
+		agora->philo[i].agora = agora;
 		i++;
 	}
 }
@@ -83,9 +83,9 @@ int	building_agora(t_agora *agora)
 	int i;
 
 	i = 0;
-	while (i < n_phils)
+	while (i < agora->n_phils)
 	{
-		if (pthread_create(agora->philos[i], NULL, routine, agora->baby[i]) != 0)
+		if (pthread_create(&agora->baby[i], NULL, routine, &agora->philo[i]) != 0)
 			return (printf("Error creating babies\n") * 0 + -1);
 		i++;
 	}
@@ -112,11 +112,11 @@ int	pregnancy(char **argv, t_agora *agora)
 	pthread_mutex_init(&agora->end, NULL);
 	pthread_mutex_init(&agora->end_ph, NULL);
 	agora->baby = malloc(sizeof(pthread_t) * agora->n_phils);
-	agora->philos = malloc(sizeof(t_philo) * agora->n_phils);
-	if (!agora->baby || !agora->philos)
-		return(free_mmr(&agora->baby, &agora->philos, -1));
+	agora->philo = malloc(sizeof(t_philo) * agora->n_phils);
+	if (!agora->baby || !agora->philo)
+		return(free_mmr(&agora->baby, &agora->philo, -1));
 	giving_birth(agora);
 	if (building_agora(agora) == -1)
-		return (free_mmr(&agora->baby, &agora->philos, -1));
+		return (free_mmr(&agora->baby, &agora->philo, -1));
 	return (0);
 }

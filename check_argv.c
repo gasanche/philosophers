@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:41:12 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/03/28 15:55:25 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:48:52 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_atoi(const char *str)
 	return (nb * sign);
 }
 
-int	check_argv(t_philos *philos, char **argv)
+int	check_argv(t_agora *agora, char **argv)
 {
 	int	i;
 	int	j;
@@ -60,7 +60,7 @@ int	check_argv(t_philos *philos, char **argv)
 			j++;
 		}
 	}
-	if (pregnancy(argv, philos) == -1)
+	if (pregnancy(argv, agora) == -1)
 		return (-1);
 	return (0);
 }

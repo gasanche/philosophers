@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:41:48 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/03/31 18:51:19 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:00:42 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,30 @@ typedef struct s_philo
 	struct s_agora	*agora;
 }	t_philo;
 
-int	check_argv(t_philos *philos, char **argv);
+/*check_argv*/
+int	check_argv(t_agora *agora, char **argv);
 int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
-int pregnancy(char **argv, t_philos *philos);
+
+/*birth*/
+int pregnancy(char **argv, t_agora *agora);
+int	building_agora(t_agora *agora);
+void	giving_birth(t_agora *agora);
+int	ft_strisvalid(char **argv);
+int	ft_strlen(char *s);
+int	free_mmr(pthread_t **baby, t_philo **philos, int error);
+
+/*routine*/
+void *routine(void *philo_arg);
+void    sargent(t_agora *agora);
+long int    time_passed(struct timeval start);
+int food_supervisor(t_agora *agora);
+void sleeping(int ttsleep, t_agora *agora);
+void eat(t_philo *philo);
+void    food_left(t_philo *philo);
+
+/*utils*/
+void    dead(t_agora *agora);
+void    print_status(t_philo *philo, char *str, int status);
 
 #endif

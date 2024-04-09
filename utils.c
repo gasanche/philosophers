@@ -1,4 +1,16 @@
-//header lol
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/09 13:19:25 by gabsanch          #+#    #+#             */
+/*   Updated: 2024/04/09 16:15:37 by gabsanch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 void    print_status(t_philo *philo, char *str, int status)
 {
@@ -11,6 +23,7 @@ void    print_status(t_philo *philo, char *str, int status)
     the_end = philo->agora->ended;
     pthread_mutex_unlock(&philo->agora->end);
     time = time_passed(philo->agora->start);
+	//printf("\ntime devuelve : %d\n", time);
     if (the_end != 1 || status == 1)
         printf("%d %d %s\n", time, philo->n_philo + 1, str);
     pthread_mutex_unlock(&philo->agora->print);
