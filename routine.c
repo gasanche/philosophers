@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:20:13 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/04/09 17:38:31 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:42:10 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void eat(t_philo *philo)
     pthread_mutex_lock(&philo->died);
     philo->dead = time_passed(philo->agora->start) + philo->agora->ttdie;
     pthread_mutex_unlock(&philo->died);
-    if (philo->lst_eat != 0) //amigo dannyel del pasado, parsea mejor lolololol
+    if (philo->lst_eat != 0)
         print_status(philo, "is eating", 0);
     food_left(philo);
     sleeping(philo->agora->ttsleep, philo->agora);
@@ -127,7 +127,7 @@ void *routine(void *philo_arg)
     t_philo *philo;
     int     status;
 
-    philo = (t_philo *)philo_arg; //aclarar pa que sirve
+    philo = (t_philo *)philo_arg;
 	//printf("n_philo tiene: %i\n", philo->n_philo);
     if (philo->n_philo % 2 == 1)
     {

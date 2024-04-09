@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:51:58 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/04/09 17:32:53 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 19:34:24 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	pregnancy(char **argv, t_agora *agora)
 	agora->ttdie = ft_atoi(argv[2]);
 	agora->tteat = ft_atoi(argv[3]);
 	agora->ttsleep =  ft_atoi(argv[4]);
-	agora->min_meals = 0;
+	agora->min_meals = -1;
 	if (argv[5])
 		agora->min_meals = ft_atoi(argv[5]);
 	if (agora->n_phils == 0 || agora->n_phils > 200 || !agora->ttdie
