@@ -6,7 +6,7 @@
 /*   By: gabsanch <gabsanch@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:41:48 by gabsanch          #+#    #+#             */
-/*   Updated: 2024/04/09 17:00:42 by gabsanch         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:12:03 by gabsanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_philo	t_philo;
 typedef struct s_agora
 {
 	int	n_phils;
-	int	threads;
+	int	threads;//donde la uso?
 	int	ttdie;
 	int	tteat;
 	int	ttsleep;
